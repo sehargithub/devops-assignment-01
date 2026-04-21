@@ -7,12 +7,11 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/sehargithub/devops-assignment-01.git'
-            }
-        }
-
+       stage('Checkout Code') {
+         steps {
+           git branch: 'main', url: 'https://github.com/sehargithub/devops-assignment-01.git'
+          }
+       }
         stage('Install Sonar Scanner') {
             steps {
                 sh '''
