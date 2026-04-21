@@ -36,10 +36,17 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                sh 'docker run -d $IMAGE_NAME'
-            }
-        }
+stage('Run Container') {
+    steps {
+        sh '''
+        docker rm -f devops-container || true
+        docker run -d \
+          --name devops-container \
+          -p 3000:3000 \
+          devops-app
+        '''
     }
+  }
+ }
 }
+
