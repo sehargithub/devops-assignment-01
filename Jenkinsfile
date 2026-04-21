@@ -15,20 +15,21 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-          steps {
+           steps {
             withSonarQubeEnv('sonarqube') {
             sh '''
             docker run --rm \
               --network devops-assignment-01_default \
-              -e SONAR_HOST_URL=http://sonarqube:9000 \
-              -e SONAR_LOGIN=$SONAR_TOKEN \
               -v $(pwd):/usr/src \
-              sonarsource/sonar-scanner-cli
+              sonarsource/sonar-scanner-cli \
+              -Dsonar.projectKey=DevOps-App \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=$SONAR_HOST_URL \
+              -Dsonar.login=$SONAR_TOKEN
             '''
         }
     }
-}
-        stage('Build Docker Image') {
+}        stage('Build Docker Image') {
             steps {
                 sh 'docker build -t $IMAGE_NAME ./app'
             }
