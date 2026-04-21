@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "devops-app"
+        SONAR_TOKEN = credentials('sonar-token')
     }
 
     stages {
@@ -20,7 +21,7 @@ pipeline {
             docker run --rm \
               --network devops-assignment-01_default \
               -e SONAR_HOST_URL=http://sonarqube:9000 \
-              -e SONAR_LOGIN=$SONAR_AUTH_TOKEN \
+              -e SONAR_LOGIN=$SONAR_TOKEN \
               -v $(pwd):/usr/src \
               sonarsource/sonar-scanner-cli
             '''
